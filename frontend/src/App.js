@@ -13,7 +13,7 @@ function App() {
         <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/top-artist" element={<Artists />} />
+            <Route path="/top-artists" element={<Artists />} />
             <Route path="/top-tracks" element={<Tracks />} />
             <Route path="/recent" element={<Recent />} />
             <Route path="/playlist" element={<Playlist />} />
