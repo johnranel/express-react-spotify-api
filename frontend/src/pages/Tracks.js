@@ -1,75 +1,43 @@
-import React from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import React, { useEffect, useState } from "react";
+import Main from "../components/Main";
+import { getTopArtistOrTrack } from "../spotify_api";
+import { catchErrors } from "../utils";
+import SingleTrack from "../components/SingleTrack";
 
 const Tracks = () => {
+    const [spotifyTopTracksData, setSpotifyTopTracksData] = useState({});
+    const [timeRange, setTimeRange] = useState("long_term");
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const spotifyTopTracks = async () => {
+            const { data } = await getTopArtistOrTrack("tracks", timeRange, 0, 20);
+            setSpotifyTopTracksData(data?.items);
+            setIsLoading(false);
+        }
+        catchErrors(spotifyTopTracks)();
+    }, [timeRange]);
+
     return (
-        <main className="bg-gradient-to-b grid from-neutral-500 via-neutral-800 to-neutral-900">
-            <Header />
-            <section className="grid order-2 md:order-1 py-10">
-                <div className="container px-10 pb-10 place-self-center bg-neutral-100 bg-opacity-10 rounded-xl">
-                    <div className="flex flex-col items-center md:flex md:flex-row md:justify-between py-5">
-                        <h1 className="text-neutral-100 text-left text-xl font-bold">TOP TRACKS</h1>
-                        <div className="flex gap-5 mt-5 md:mt-0">
-                            <button className="text-neutral-100 text-base font-medium">All Time</button>
-                            <button className="text-neutral-100 text-base font-medium">Last 6 Months</button>
-                            <button className="text-neutral-100 text-base font-medium">Last 4 Weeks</button>
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-1 gap-10">
-                        <div className="flex justify-between items-center">
-                            <div className="grid grid-cols-2 grid-rows-2 text-left items-center">
-                                <div className="w-[60px] h-[60px] bg-gray-300 row-span-2"></div>
-                                <span className="text-neutral-100">Artist Name</span>
-                                <span className="text-neutral-400 font-xs">Artist</span>
-                            </div>
-                            <span className="text-neutral-400">3:00</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <div className="grid grid-cols-2 grid-rows-2 text-left items-center">
-                                <div className="w-[60px] h-[60px] bg-gray-300 row-span-2"></div>
-                                <span className="text-neutral-100">Artist Name</span>
-                                <span className="text-neutral-400 font-xs">Artist</span>
-                            </div>
-                            <span className="text-neutral-400">3:00</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <div className="grid grid-cols-2 grid-rows-2 text-left items-center">
-                                <div className="w-[60px] h-[60px] bg-gray-300 row-span-2"></div>
-                                <span className="text-neutral-100">Artist Name</span>
-                                <span className="text-neutral-400 font-xs">Artist</span>
-                            </div>
-                            <span className="text-neutral-400">3:00</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <div className="grid grid-cols-2 grid-rows-2 text-left items-center">
-                                <div className="w-[60px] h-[60px] bg-gray-300 row-span-2"></div>
-                                <span className="text-neutral-100">Artist Name</span>
-                                <span className="text-neutral-400 font-xs">Artist</span>
-                            </div>
-                            <span className="text-neutral-400">3:00</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <div className="grid grid-cols-2 grid-rows-2 text-left items-center">
-                                <div className="w-[60px] h-[60px] bg-gray-300 row-span-2"></div>
-                                <span className="text-neutral-100">Artist Name</span>
-                                <span className="text-neutral-400 font-xs">Artist</span>
-                            </div>
-                            <span className="text-neutral-400">3:00</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <div className="grid grid-cols-2 grid-rows-2 text-left items-center">
-                                <div className="w-[60px] h-[60px] bg-gray-300 row-span-2"></div>
-                                <span className="text-neutral-100">Artist Name</span>
-                                <span className="text-neutral-400 font-xs">Artist</span>
-                            </div>
-                            <span className="text-neutral-400">3:00</span>
-                        </div>
-                    </div>
+        <Main>
+            <div className="flex flex-col items-center md:flex md:flex-row md:justify-between py-5">
+                <h1 className="text-neutral-100 text-left text-xl font-bold">TOP TRACKS</h1>
+                <div className="flex gap-5 mt-5 md:mt-0">
+                    <button onClick={() => setTimeRange("long_term")} className="text-neutral-100 text-xs sm:text-base font-medium">All Time</button>
+                    <button onClick={() => setTimeRange("medium_term")} className="text-neutral-100 text-xs sm:text-base font-medium">Last 6 Months</button>
+                    <button onClick={() => setTimeRange("short_term")} className="text-neutral-100 text-xs sm:text-base font-medium">Last 4 Weeks</button>
                 </div>
-            </section>
-            <Footer />
-        </main>
+            </div>
+            <div className="grid grid-cols-1 gap-10">
+                {(!isLoading) ? (
+                        spotifyTopTracksData.map((trackData) => (
+                            <SingleTrack trackInfo={trackData} key={trackData.id} />
+                        ))
+                    ) : (
+                        <div>Loading...</div>
+                )}
+            </div>
+        </Main>
     );
 }
 

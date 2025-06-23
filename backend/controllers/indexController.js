@@ -43,7 +43,6 @@ exports.getCallback = (req, res) => {
         };
         request.post(authOptions, (error, response, body) => {
             if(!error || response.statusCode === 200) {
-                console.log(body);
                 res.redirect(frontend_uri + "#" + new URLSearchParams({ access_token: body.access_token, refresh_token: body.refresh_token }));
             }
         });        
