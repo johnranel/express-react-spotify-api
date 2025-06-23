@@ -9,7 +9,6 @@ import Tracks from "./pages/Tracks";
 import Recent from "./pages/Recent";
 import Playlist from "./pages/Playlist";
 
-
 function App() {
     const [accessToken, setAccessToken] = useState('');
 

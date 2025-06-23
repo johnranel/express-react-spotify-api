@@ -6,8 +6,16 @@ var frontend_uri = process.env.FRONTEND_URI
 var client_id = process.env.CLIENT_ID
 var client_secret = process.env.CLIENT_SECRET
 
+const generateRandomString = length => {
+    let text = '';
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (let i = 0; i < length; i++) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+};
+
 exports.getLogin = (req, res) => {
-    var state = "ABCDEFGHIJKLMNILA";
     var scope = 'user-read-private user-read-email user-top-read user-follow-read user-read-recently-played playlist-read-private playlist-read-collaborative';
     res.redirect('https://accounts.spotify.com/authorize?' +
     new URLSearchParams({
@@ -15,7 +23,7 @@ exports.getLogin = (req, res) => {
         client_id: client_id,
         scope: scope,
         redirect_uri: backend_uri + "/callback",
-        state: state
+        state: generateRandomString(16)
     }))
 }
 
