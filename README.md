@@ -30,7 +30,6 @@ This is a full-stack web application that integrates with the Spotify Web API, a
 - A registered Spotify Developer account
 - A `.env` file with your credentials:
 
-
 **Backend ENV**
 
     PORT=8080
@@ -48,7 +47,7 @@ This is a full-stack web application that integrates with the Spotify Web API, a
 
 1. Clone the repo
 
-    ```bash
+    ```
     git clone https://github.com/johnranel/express-react-spotify-api.git
     cd express-react-spotify-api
 
@@ -76,13 +75,11 @@ This is a full-stack web application that integrates with the Spotify Web API, a
     Open http://localhost:3000 to view it in the browser.
 
 ## Project Structure
-bash
-Copy
-Edit
-express-react-spotify-api\
-|── client/         # React frontend\
-|   └── ...\
-|── server/         # Express backend\
-|   └── ...\
-|── .env.example    # Sample environment variables\
-|── README.md       # This file
+
+    express-react-spotify-api
+    |── client/         # React frontend
+    |   └── ...
+    |── server/         # Express backend
+    |   └── ...
+    |── .env.example    # Sample environment variables
+    |── README.md       # This file
